@@ -570,17 +570,14 @@ function tick(){
 
 async function pull(){
   try{
-    const r = await fetch(SB_URL + "/rest/v1/zackary_board?id=eq.1&select=state,updated_at", {
-      headers:{ apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
-      cache: "no-store"
-    });
+    const r = await fetch("https://lxfliinbgnqcyfddszmn.supabase.co/functions/v1/zdata", { cache: "no-store" });
     const j = await r.json();
-    if(Array.isArray(j) && j[0]){
-      STATE = j[0].state || {};
-      STAMP = new Date(j[0].updated_at);
+    if(j && j.state){
+      STATE = j.state;
+      STAMP = new Date(j.updated_at);
       render();
     }
-  }catch(e){ /* keep showing whatever we have */ }
+  }catch(e){ }
 }
 
 pull();
