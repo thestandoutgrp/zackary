@@ -200,7 +200,7 @@ async function save(msg){
     headers:{ apikey: SB_KEY, Authorization:"Bearer " + SB_KEY, "Content-Type":"application/json" },
     body: JSON.stringify({ p_key: KEY, p_state: S })
   });
-  if(!r.ok){ toast("Save failed — check your key", true); return false; }
+  if(!r.ok){ const t = await r.text(); toast("ERR " + r.status + " " + t.slice(0,140), true); return false; }
   toast(msg || "Saved");
   return true;
 }
