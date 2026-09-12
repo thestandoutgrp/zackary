@@ -184,25 +184,32 @@ function toast(msg, err){
 }
 
 async function load(){
-  const r = await fetch(SB_URL + "/rest/v1/zackary_board?id=eq.1&select=state", {
-    headers:{ apikey: SB_KEY, Authorization: "Bearer " + SB_KEY }, cache:"no-store"
-  });
+  const r = await fetch("https://lxfliinbgnqcyfddszmn.supabase.co/functions/v1/zdata", { cache: "no-store" });
   const j = await r.json();
-  S = (Array.isArray(j) && j[0] && j[0].state) || {};
+  S = (j && j.state) || {};
   S.details = S.details || {}; S.vitals = S.vitals || {}; S.baby = S.baby || {};
   S.team = S.team || {}; S.milestones = S.milestones || []; S.photos = S.photos || [];
   fill();
 }
 
 async function save(msg){
-  const r = await fetch(SB_URL + "/rest/v1/rpc/zackary_save", {
-    method:"POST",
-    headers:{ apikey: SB_KEY, Authorization:"Bearer " + SB_KEY, "Content-Type":"application/json" },
-    body: JSON.stringify({ p_key: KEY, p_state: S })
-  });
-  if(!r.ok){ const t = await r.text(); toast("ERR " + r.status + " " + t.slice(0,140), true); return false; }
-  toast(msg || "Saved");
-  return true;
+  try{
+    const r = await fetch("https://lxfliinbgnqcyfddszmn.supabase.co/functions/v1/zdata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: KEY, state: S })
+    });
+    if(!r.ok){
+      const t = await r.text();
+      toast("ERR " + r.status + " " + t.slice(0,120), true);
+      return false;
+    }
+    toast(msg || "Saved");
+    return true;
+  }catch(err){
+    toast("ERR " + (err && err.message ? err.message : String(err)), true);
+    return false;
+  }
 }
 
 /* ---- pills ---- */
