@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baby Zackary's Arrival · Live Updates</title>
+<meta name="theme-color" content="#f5f8fd">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#0e2038;--ink-2:#3d5473;--ink-3:#7288a6;--ink-4:#a3b4c9;
+    --line:#e2eaf5;--line-2:#eef3fa;--surface:#ffffff;--canvas:#f5f8fd;
+    --blue:#2f6bea;--blue-soft:#e8f0ff;--mist:#f0f5fd;
+    --mint:#0f9d76;--mint-soft:#e6f7f1;--amber:#c88a12;--amber-soft:#fdf3e0;
+    --radius:22px;
+    --shadow:0 1px 2px rgba(14,32,56,.04), 0 16px 40px -24px rgba(14,32,56,.28);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{background-color:#f5f8fd}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;background-color:#f5f8fd;
+    background-image:radial-gradient(1000px 600px at 88% 0%, #dfeaff 0%, rgba(223,234,255,0) 62%),
+      radial-gradient(900px 520px at 0% 6%, #e6f5f4 0%, rgba(230,245,244,0) 58%);
+    background-repeat:no-repeat}
+  body{background-color:var(--canvas);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    font-size:15px;line-height:1.5;min-height:100vh;padding:0 18px 84px;
+    -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+  .wrap{max-width:660px;margin:0 auto}
+  .topbar{position:sticky;top:0;z-index:50;margin:0 -18px;padding:14px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(245,248,253,.8);backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid rgba(226,234,245,.9)}
+  .topbar .mark{font-family:"Fraunces",serif;font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .topbar .mark span{color:var(--ink-3);font-weight:400}
+  .status-dot{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+  .status-dot i{width:6px;height:6px;border-radius:50%;background:var(--ink-4);
+    box-shadow:0 0 0 3px rgba(163,180,201,.22)}
+  .status-dot.live{color:var(--mint)}
+  .status-dot.live i{background:var(--mint);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(15,157,118,.2)}50%{box-shadow:0 0 0 7px rgba(15,157,118,.05)}}
+  header{padding:56px 0 34px;text-align:center}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+  h1{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(46px,12vw,80px);
+    line-height:.95;letter-spacing:-.035em;margin:14px 0 0;color:var(--ink)}
+  h1 em{font-style:italic;font-weight:400;color:var(--blue)}
+  .tagline{margin:18px auto 0;max-width:36ch;color:var(--ink-2);font-size:15.5px}
+  .meta-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:24px}
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;font-size:12.5px;color:var(--ink-3);font-weight:500}
+  .chip b{color:var(--ink);font-weight:600;margin-left:5px}
+  section.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 24px;margin:14px 0;box-shadow:var(--shadow)}
+  .card-head{margin-bottom:20px}
+  .kicker{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4)}
+  .card-head h2{font-family:"Fraunces",serif;font-weight:400;font-size:26px;
+    letter-spacing:-.02em;margin:6px 0 0;color:var(--ink)}
+  .card-head p{margin:7px 0 0;color:var(--ink-3);font-size:14px}
+  .photos[hidden]{display:none}
+  .photos .shot{margin:0}
+  .photos .shot img{display:block;width:100%;height:auto;border-radius:14px;cursor:zoom-in;background:var(--mist)}
+  .photos .shot .cap{padding:11px 4px 0;text-align:center;font-family:"Fraunces",serif;
+    font-style:italic;font-size:16.5px;color:var(--ink-2);line-height:1.35}
+  .photos .shot .stamp{display:block;margin-top:5px;font-family:"Inter",sans-serif;font-style:normal;
+    font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4)}
+  .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+  .photo-grid:empty{display:none}
+  .photo-grid .shot img{aspect-ratio:1/1;object-fit:cover;border-radius:12px}
+  .photo-grid .shot .cap{display:none}
+  .photo-notice{margin-top:18px;padding:11px 14px;border-radius:12px;background:var(--amber-soft);
+    color:var(--amber);font-size:12.5px;font-weight:600;text-align:center}
+  .lightbox{position:fixed;inset:0;z-index:200;background:rgba(8,18,34,.94);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px}
+  .lightbox[hidden]{display:none}
+  .lightbox img{max-width:100%;max-height:80vh;border-radius:14px;display:block}
+  .lb-cap{margin-top:16px;color:rgba(255,255,255,.82);font-family:"Fraunces",serif;
+    font-style:italic;font-size:16px;text-align:center;max-width:34ch}
+  .lb-close{position:absolute;top:14px;right:16px;width:42px;height:42px;border-radius:50%;
+    border:none;background:rgba(255,255,255,.14);color:#fff;font-size:26px;line-height:1;
+    cursor:pointer;display:flex;align-items:center;justify-content:center}
+  section.card.spotlight{background-color:#173e70;
+    background-image:linear-gradient(158deg,#12305a 0%,#1b4a82 52%,#2f6bea 100%);
+    border:none;color:#fff;box-shadow:0 20px 50px -28px rgba(18,48,90,.85);
+    position:relative;overflow:hidden}
+  .spotlight::after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;
+    border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 65%)}
+  .spotlight .kicker{color:rgba(255,255,255,.55)}
+  .spotlight h2{color:#fff;position:relative}
+  .spotlight .empty{border:1px dashed rgba(255,255,255,.28);border-radius:16px;padding:24px 20px;
+    text-align:center;color:rgba(255,255,255,.72);font-size:14px;position:relative}
+  .spotlight .empty b{display:block;color:#fff;font-family:"Fraunces",serif;font-weight:400;
+    font-size:20px;letter-spacing:-.015em;margin-bottom:5px}
+  .spotlight .when{position:relative;font-size:11px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px}
+  .spotlight .msg{position:relative;color:rgba(255,255,255,.92);font-size:15.5px;
+    line-height:1.55;white-space:pre-line}
+  .countdown{text-align:center;padding:6px 0 2px}
+  .cd-clock{display:flex;justify-content:center;gap:10px;margin-top:4px}
+  .cd-unit{flex:0 0 84px;background:var(--mist);border-radius:16px;padding:16px 8px}
+  .cd-unit b{display:block;font-family:"Fraunces",serif;font-weight:400;font-size:34px;
+    letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .cd-unit b.muted{color:var(--ink-4)}
+  .cd-unit span{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-4);font-weight:600;margin-top:9px}
+  .cd-note{margin-top:16px;font-size:13.5px;color:var(--ink-3)}
+  .rail{display:grid;grid-template-columns:repeat(6,1fr);position:relative}
+  .rail::before{content:"";position:absolute;left:8%;right:8%;top:9px;height:2px;background:var(--line)}
+  .step{text-align:center;position:relative}
+  .step i{display:block;width:20px;height:20px;border-radius:50%;margin:0 auto 10px;
+    background:var(--surface);border:2px solid var(--line);position:relative;z-index:1}
+  .step.done i{background:var(--mint);border-color:var(--mint)}
+  .step.now i{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px rgba(47,107,234,.16)}
+  .step b{display:block;font-size:11.5px;font-weight:600;color:var(--ink-4);line-height:1.25}
+  .step.done b,.step.now b{color:var(--ink)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-2);
+    border:1px solid var(--line-2);border-radius:16px;overflow:hidden}
+  .stats .s{background:var(--surface);padding:16px 14px}
+  .stats .s .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);font-weight:600}
+  .stats .s .v{font-family:"Fraunces",serif;font-weight:400;font-size:26px;letter-spacing:-.02em;
+    color:var(--ink);margin-top:6px;line-height:1.1;word-break:break-word}
+  .stats .s .v.muted{color:var(--ink-4)}
+  .team{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);
+    border-radius:16px;overflow:hidden}
+  .p{display:flex;align-items:center;gap:14px;background:var(--surface);padding:14px 16px}
+  .p .av{width:40px;height:40px;border-radius:50%;flex:0 0 40px;display:flex;align-items:center;
+    justify-content:center;font-family:"Fraunces",serif;font-size:15px;font-weight:500;
+    background:var(--blue-soft);color:var(--blue)}
+  .p .av.warm{background:var(--mint-soft);color:var(--mint)}
+  .p .av.pend{background:var(--mist);color:var(--ink-4)}
+  .p .n{font-weight:600;font-size:14.5px}
+  .p .n.muted{color:var(--ink-4);font-weight:500}
+  .p .r{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);
+    font-weight:600;margin-bottom:2px}
+  .row{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line-2);align-items:flex-start}
+  .row:last-child{border-bottom:none;padding-bottom:0}
+  .row:first-child{padding-top:0}
+  .row b{flex:0 0 104px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-4);font-weight:600;padding-top:3px}
+  .row span{font-size:14.5px;color:var(--ink-2)}
+  .row span.muted{color:var(--ink-4)}
+  .scale{display:flex;gap:4px}
+  .scale div{flex:1;text-align:center;padding:11px 2px;border-radius:10px;background:var(--mist);
+    font-size:12px;font-weight:600;color:var(--ink-3)}
+  .scale div.on{background:var(--blue);color:#fff}
+  .scale-legend{display:flex;justify-content:space-between;margin-top:9px;font-size:11.5px;color:var(--ink-4)}
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:var(--line)}
+  .ev{position:relative;padding-bottom:24px}
+  .ev:last-child{padding-bottom:0}
+  .ev::before{content:"";position:absolute;left:-26px;top:5px;width:11px;height:11px;border-radius:50%;
+    background:var(--surface);border:2px solid var(--line)}
+  .ev.key::before{background:var(--blue);border-color:var(--blue)}
+  .ev .when{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);font-weight:600}
+  .ev .ttl{font-family:"Fraunces",serif;font-weight:400;font-size:19px;letter-spacing:-.015em;margin:4px 0 5px}
+  .ev .body{font-size:14.5px;color:var(--ink-2);white-space:pre-line}
+  .empty-state{border:1px dashed var(--line);border-radius:16px;padding:26px 20px;text-align:center}
+  .empty-state b{display:block;font-family:"Fraunces",serif;font-weight:400;font-size:19px;
+    letter-spacing:-.015em;color:var(--ink);margin-bottom:5px}
+  .empty-state span{font-size:14px;color:var(--ink-3)}
+  footer{text-align:center;padding:44px 12px 0;color:var(--ink-4);font-size:13px}
+  footer .verse{font-family:"Fraunces",serif;font-style:italic;font-weight:300;font-size:20px;
+    line-height:1.45;color:var(--ink-2);max-width:30ch;margin:0 auto;letter-spacing:-.01em}
+  footer .verse-ref{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-4);margin-top:12px}
+  footer .sig{font-family:"Fraunces",serif;font-style:italic;font-size:18px;color:var(--ink-2);
+    margin:28px 0 8px;padding-top:24px;border-top:1px solid var(--line)}
+  @media (max-width:560px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .rail{grid-template-columns:repeat(3,1fr);row-gap:20px}
+    .rail::before{display:none}
+    .cd-unit{flex:1 1 0;padding:14px 4px}
+    .cd-unit b{font-size:28px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="mark">Zackary <span>· live updates</span></div>
+    <div class="status-dot" id="statusChip"><i></i> <span id="statusText">Loading</span></div>
+  </div>
+
+  <header>
+    <div class="eyebrow">Scheduled C-section</div>
+    <h1>Baby <em>Zackary</em></h1>
+    <p class="tagline">Nine months of waiting, one morning to go. Michelle is delivering by planned C-section — Rene will post updates here all day. This page updates itself.</p>
+    <div class="meta-row">
+      <span class="chip">Now <b id="clock">—</b></span>
+      <span class="chip">Surgery <b id="surgeryAt">—</b></span>
+      <span class="chip">Updated <b id="updatedAgo">—</b></span>
+    </div>
+  </header>
+
+  <section class="card photos" id="photoCard" hidden>
+    <div class="card-head">
+      <div class="kicker">Camera roll</div>
+      <h2 id="photoTitle">Photos</h2>
+      <p id="photoSub">Newest first. Tap any photo to see it bigger.</p>
+    </div>
+    <div id="photoHero"></div>
+    <div class="photo-grid" id="photoGrid"></div>
+    <div class="photo-notice">Please do not post or share these photos.</div>
+  </section>
+
+  <section class="card spotlight">
+    <div class="card-head">
+      <div class="kicker">Latest update</div>
+      <h2 id="spotHead">Nothing yet</h2>
+    </div>
+    <div id="spotBody">
+      <div class="empty">
+        <b>No news is good news</b>
+        The newest update always lands right here, at the top of the page.
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Countdown</div>
+      <h2 id="cdTitle">Time to go</h2>
+      <p id="cdLede">Counting down to the scheduled OR time.</p>
+    </div>
+    <div class="countdown">
+      <div class="cd-clock">
+        <div class="cd-unit"><b class="muted" id="cdD">—</b><span>days</span></div>
+        <div class="cd-unit"><b class="muted" id="cdH">—</b><span>hours</span></div>
+        <div class="cd-unit"><b class="muted" id="cdM">—</b><span>min</span></div>
+      </div>
+      <div class="cd-note" id="cdNote">Waiting on the OR time.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">The day</div>
+      <h2>How it goes</h2>
+      <p>Six steps from hospital doors to recovery.</p>
+    </div>
+    <div class="rail" id="rail">
+      <div class="step"><i></i><b>On our way</b></div>
+      <div class="step"><i></i><b>Check-in</b></div>
+      <div class="step"><i></i><b>Prep</b></div>
+      <div class="step"><i></i><b>Spinal</b></div>
+      <div class="step"><i></i><b>Zackary born</b></div>
+      <div class="step"><i></i><b>Recovery</b></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Surgery details</div>
+      <h2>The plan</h2>
+    </div>
+    <div class="rows">
+      <div class="row"><b>Date</b><span>Saturday, September 12</span></div>
+      <div class="row"><b>Check-in</b><span class="muted" id="dCheckin">To be confirmed</span></div>
+      <div class="row"><b>OR time</b><span class="muted" id="dOr">To be confirmed</span></div>
+      <div class="row"><b>Anesthesia</b><span>Spinal block — Michelle awake for the birth</span></div>
+      <div class="row"><b>No food after</b><span class="muted" id="dFood">To be confirmed</span></div>
+      <div class="row"><b>In the OR</b><span>Rene, right by her head</span></div>
+      <div class="row"><b>Hospital stay</b><span>Typically 2–4 nights after a C-section</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Vitals</div>
+      <h2>Michelle &amp; Zackary</h2>
+      <p>Updated whenever the nurses check in.</p>
+    </div>
+    <div class="stats">
+      <div class="s"><div class="k">Michelle · BP</div><div class="v muted" id="vBp">—</div></div>
+      <div class="s"><div class="k">Michelle · HR</div><div class="v muted" id="vHr">—</div></div>
+      <div class="s"><div class="k">Michelle · temp</div><div class="v muted" id="vTemp">—</div></div>
+      <div class="s"><div class="k">Michelle · O₂</div><div class="v muted" id="vO2">—</div></div>
+      <div class="s"><div class="k">Zackary · HR</div><div class="v muted" id="vBaby">—</div></div>
+      <div class="s"><div class="k">Status</div><div class="v muted" id="vStatus">Pre-op</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Zackary</div>
+      <h2>First numbers</h2>
+      <p>Filled in the moment he arrives.</p>
+    </div>
+    <div class="stats">
+      <div class="s"><div class="k">Born at</div><div class="v muted" id="bBorn">—</div></div>
+      <div class="s"><div class="k">Weight</div><div class="v muted" id="bWeight">—</div></div>
+      <div class="s"><div class="k">Length</div><div class="v muted" id="bLength">—</div></div>
+      <div class="s"><div class="k">Apgar</div><div class="v muted" id="bApgar">—</div></div>
+      <div class="s"><div class="k">Hair</div><div class="v muted" id="bHair">—</div></div>
+      <div class="s"><div class="k">First cry</div><div class="v muted" id="bCry">—</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Recovery</div>
+      <h2>How Michelle's feeling</h2>
+      <p id="comfortP">Comfort level, 1 to 10.</p>
+    </div>
+    <div class="scale" id="scale"></div>
+    <div class="scale-legend"><span>Comfortable</span><span>Sore</span><span>Rough</span></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Care team</div>
+      <h2>Who's in the room</h2>
+    </div>
+    <div class="team">
+      <div class="p"><div class="av">M</div><div><div class="r">Mama · the star</div><div class="n">Michelle</div></div></div>
+      <div class="p"><div class="av warm">R</div><div><div class="r">Dad · in the OR</div><div class="n">Rene</div></div></div>
+      <div class="p"><div class="av">C</div><div><div class="r">OB · surgeon</div><div class="n">Dr. Casanova</div></div></div>
+      <div class="p"><div class="av pend" id="aAnes">·</div><div><div class="r">Anesthesiology</div><div class="n muted" id="tAnes">Name pending</div></div></div>
+      <div class="p"><div class="av pend" id="aNurse">·</div><div><div class="r">OR nurse</div><div class="n muted" id="tNurse">Name pending</div></div></div>
+      <div class="p"><div class="av pend" id="aPeds">·</div><div><div class="r">Pediatrics</div><div class="n muted" id="tPeds">Name pending</div></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Logistics</div>
+      <h2>Hospital &amp; visitors</h2>
+    </div>
+    <div class="rows">
+      <div class="row"><b>Hospital</b><span>West Kendall Baptist Hospital</span></div>
+      <div class="row"><b>Room</b><span class="muted" id="lRoom">To be shared</span></div>
+      <div class="row"><b>Visiting</b><span id="lVisit">No visitors until further notice. We'll post here when we're ready.</span></div>
+      <div class="row"><b>Note</b><span>Michelle will be on bed rest the first day. Short visits, quiet room.</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="kicker">Markers</div>
+      <h2>Milestones so far</h2>
+    </div>
+    <div id="mileWrap">
+      <div class="empty-state">
+        <b>The first update starts the clock</b>
+        <span>Every milestone will be logged here, newest first.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="verse">“For you formed my inmost being. You knit me together in my mother's womb.”</div>
+    <div class="verse-ref">Psalm 139:13</div>
+    <div class="sig">For Michelle, Rene &amp; baby Zackary</div>
+    <div>All times Eastern · this page updates on its own</div>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" aria-label="Close">&times;</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+const SB_URL = "https://lxfliinbgnqcyfddszmn.supabase.co";
+const SB_KEY = "sb_publishable_Olr9Z-sqEQaMEt8ZmVkGwQ_j5ridUsk";
+
+const tFmt = {hour:"numeric",minute:"2-digit",hour12:true,timeZone:"America/New_York"};
+const dFmt = {weekday:"short",month:"short",day:"numeric",timeZone:"America/New_York"};
+const $ = id => document.getElementById(id);
+let STATE = null, STAMP = null;
+
+function stampFor(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  if(isNaN(d)) return "";
+  return d.toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"America/New_York"}) +
+         " \u00b7 " + d.toLocaleTimeString("en-US", tFmt);
+}
+function ago(then, now){
+  const s = Math.floor((now - then)/1000);
+  if(s < 60) return "just now";
+  const m = Math.floor(s/60);
+  if(m < 60) return m + " min ago";
+  const h = Math.floor(m/60);
+  if(h < 24) return h + (h === 1 ? " hr ago" : " hrs ago");
+  const d = Math.floor(h/24);
+  return d + (d === 1 ? " day ago" : " days ago");
+}
+function setVal(id, v, fallback){
+  const el = $(id); if(!el) return;
+  if(v && String(v).trim()){ el.textContent = v; el.classList.remove("muted"); }
+  else { el.textContent = fallback; el.classList.add("muted"); }
+}
+
+/* ---- photos ---- */
+function shotEl(p, i){
+  const fig = document.createElement("figure");
+  fig.className = "shot";
+  const img = document.createElement("img");
+  img.src = p.src;
+  img.alt = p.caption || "Baby Zackary";
+  img.loading = i === 0 ? "eager" : "lazy";
+  img.addEventListener("click", () => openLightbox(p));
+  fig.appendChild(img);
+  const cap = document.createElement("figcaption");
+  cap.className = "cap";
+  if(p.caption) cap.textContent = p.caption;
+  const st = stampFor(p.time);
+  if(st){
+    const s2 = document.createElement("span");
+    s2.className = "stamp"; s2.textContent = st;
+    cap.appendChild(s2);
+  }
+  if(p.caption || st) fig.appendChild(cap);
+  return fig;
+}
+function openLightbox(p){
+  $("lbImg").src = p.src;
+  $("lbCap").textContent = [p.caption, stampFor(p.time)].filter(Boolean).join(" \u00b7 ");
+  $("lightbox").hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox(){
+  $("lightbox").hidden = true; $("lbImg").src = ""; document.body.style.overflow = "";
+}
+$("lightbox").addEventListener("click", closeLightbox);
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeLightbox(); });
+
+/* ---- render ---- */
+function render(){
+  const s = STATE; if(!s) return;
+
+  $("statusText").textContent = s.born_at ? "He's here" : (s.status || "Scheduled");
+  $("statusChip").classList.toggle("live", !!(s.live || s.born_at));
+
+  /* photos */
+  const photos = s.photos || [];
+  $("photoHero").innerHTML = ""; $("photoGrid").innerHTML = "";
+  if(photos.length){
+    $("photoCard").hidden = false;
+    $("photoTitle").textContent = photos.length === 1 ? "First photo" : photos.length + " photos";
+    $("photoSub").textContent = photos.length === 1
+      ? "Tap it to see it bigger." : "Newest first. Tap any photo to see it bigger.";
+    $("photoHero").appendChild(shotEl(photos[0], 0));
+    photos.slice(1).forEach((p,i) => $("photoGrid").appendChild(shotEl(p, i+1)));
+  } else { $("photoCard").hidden = true; }
+
+  /* spotlight */
+  if(s.latest && s.latest.msg){
+    $("spotHead").textContent = s.latest.title || "Latest from Rene";
+    const when = document.createElement("div");
+    when.className = "when"; when.textContent = stampFor(s.latest.time);
+    const msg = document.createElement("div");
+    msg.className = "msg"; msg.textContent = s.latest.msg;
+    $("spotBody").innerHTML = ""; $("spotBody").appendChild(when); $("spotBody").appendChild(msg);
+  }
+
+  /* rail */
+  const stage = typeof s.stage === "number" ? s.stage : -1;
+  [...$("rail").children].forEach((el, i) => {
+    el.classList.toggle("done", stage > i);
+    el.classList.toggle("now",  stage === i);
+  });
+
+  /* details */
+  const d = s.details || {};
+  setVal("dCheckin", d.checkin, "To be confirmed");
+  setVal("dOr", d.or_time, "To be confirmed");
+  setVal("dFood", d.no_food, "To be confirmed");
+  setVal("lRoom", d.room, "To be shared");
+  if(s.visiting && s.visiting.trim()) $("lVisit").textContent = s.visiting;
+
+  /* vitals */
+  const v = s.vitals || {};
+  setVal("vBp", v.bp, "—"); setVal("vHr", v.hr, "—"); setVal("vTemp", v.temp, "—");
+  setVal("vO2", v.o2, "—"); setVal("vBaby", v.baby_hr, "—"); setVal("vStatus", v.status, "Pre-op");
+
+  /* baby */
+  const b = s.baby || {};
+  setVal("bBorn", b.born, "—"); setVal("bWeight", b.weight, "—"); setVal("bLength", b.length, "—");
+  setVal("bApgar", b.apgar, "—"); setVal("bHair", b.hair, "—"); setVal("bCry", b.cry, "—");
+
+  /* comfort */
+  const c = Math.min(10, Math.max(1, s.comfort || 1));
+  $("comfortP").textContent = "Comfort level, 1 to 10. Right now: " + c + ".";
+  const sc = $("scale"); sc.innerHTML = "";
+  for(let i=1;i<=10;i++){
+    const n = document.createElement("div");
+    n.textContent = i; if(i === c) n.className = "on";
+    sc.appendChild(n);
+  }
+
+  /* team */
+  const t = s.team || {};
+  [["tAnes","aAnes",t.anes],["tNurse","aNurse",t.nurse],["tPeds","aPeds",t.peds]].forEach(([nid,aid,val]) => {
+    const n = $(nid), a = $(aid);
+    if(val && val.trim()){
+      n.textContent = val; n.classList.remove("muted");
+      a.textContent = val.trim()[0].toUpperCase(); a.classList.remove("pend");
+    } else {
+      n.textContent = "Name pending"; n.classList.add("muted");
+      a.textContent = "\u00b7"; a.classList.add("pend");
+    }
+  });
+
+  /* milestones */
+  const ms = s.milestones || [];
+  if(ms.length){
+    const tl = document.createElement("div"); tl.className = "tl";
+    ms.forEach((m, i) => {
+      const ev = document.createElement("div");
+      ev.className = "ev" + (i === 0 ? " key" : "");
+      const w = document.createElement("div"); w.className = "when"; w.textContent = stampFor(m.time);
+      const h = document.createElement("div"); h.className = "ttl"; h.textContent = m.title || "Update";
+      ev.appendChild(w); ev.appendChild(h);
+      if(m.body){ const bd = document.createElement("div"); bd.className = "body"; bd.textContent = m.body; ev.appendChild(bd); }
+      tl.appendChild(ev);
+    });
+    $("mileWrap").innerHTML = ""; $("mileWrap").appendChild(tl);
+  }
+}
+
+/* ---- clock + countdown ---- */
+function tick(){
+  const now = new Date();
+  $("clock").textContent = now.toLocaleTimeString("en-US", Object.assign({second:"2-digit"}, tFmt));
+  $("updatedAgo").textContent = STAMP ? ago(STAMP, now) : "—";
+  if(!STATE) return;
+
+  const set = (id,v) => { const el = $(id); el.textContent = v; el.classList.remove("muted"); };
+
+  if(STATE.born_at){
+    const b = new Date(STATE.born_at);
+    $("cdTitle").textContent = "How old is Zackary";
+    $("cdLede").textContent = "Born " + b.toLocaleDateString("en-US", dFmt) +
+                              " at " + b.toLocaleTimeString("en-US", tFmt) + ".";
+    $("surgeryAt").textContent = b.toLocaleTimeString("en-US", tFmt);
+    const up = Math.max(0, now - b);
+    set("cdD", Math.floor(up/86400000));
+    set("cdH", Math.floor((up%86400000)/3600000));
+    set("cdM", Math.floor((up%3600000)/60000));
+    $("cdNote").textContent = "He made it. 🤍";
+    return;
+  }
+
+  if(!STATE.surgery_time){ $("surgeryAt").textContent = "Time TBD"; return; }
+  const t = new Date(STATE.surgery_time);
+  $("surgeryAt").textContent = t.toLocaleDateString("en-US", dFmt) + ", " + t.toLocaleTimeString("en-US", tFmt);
+  const diff = t - now;
+  if(diff <= 0){
+    set("cdD",0); set("cdH",0); set("cdM",0);
+    $("cdNote").textContent = "It's go time.";
+    return;
+  }
+  set("cdD", Math.floor(diff/86400000));
+  set("cdH", Math.floor((diff%86400000)/3600000));
+  set("cdM", Math.floor((diff%3600000)/60000));
+  $("cdNote").textContent = "Scheduled for " + t.toLocaleDateString("en-US", dFmt) +
+    " at " + t.toLocaleTimeString("en-US", tFmt) + " Eastern.";
+}
+
+async function pull(){
+  try{
+    const r = await fetch(SB_URL + "/rest/v1/zackary_board?id=eq.1&select=state,updated_at", {
+      headers:{ apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
+      cache: "no-store"
+    });
+    const j = await r.json();
+    if(Array.isArray(j) && j[0]){
+      STATE = j[0].state || {};
+      STAMP = new Date(j[0].updated_at);
+      render();
+    }
+  }catch(e){ /* keep showing whatever we have */ }
+}
+
+pull();
+setInterval(pull, 15000);
+tick();
+setInterval(tick, 1000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) pull(); });
+</script>
+</body>
+</html>
