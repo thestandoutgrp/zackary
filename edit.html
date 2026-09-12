@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zackary · Editor</title>
+<meta name="theme-color" content="#0e2038">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    --ink:#0e2038;--ink-2:#3d5473;--ink-3:#7288a6;--ink-4:#a3b4c9;
+    --line:#e2eaf5;--surface:#fff;--canvas:#f5f8fd;--blue:#2f6bea;
+    --mint:#0f9d76;--mist:#f0f5fd;--red:#c0392b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;
+    padding:0 14px 120px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:620px;margin:0 auto}
+  h1{font-size:20px;margin:22px 0 4px}
+  .sub{color:var(--ink-3);font-size:13.5px;margin:0 0 18px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:16px;margin:12px 0}
+  .card h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);
+    margin:0 0 12px}
+  label{display:block;font-size:12px;color:var(--ink-3);margin:10px 0 5px;font-weight:600}
+  input,textarea,select{width:100%;padding:12px;font-size:16px;border:1px solid var(--line);
+    border-radius:11px;background:#fff;color:var(--ink);font-family:inherit}
+  textarea{min-height:96px;resize:vertical}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:block;width:100%;padding:15px;border:none;border-radius:12px;background:var(--ink);
+    color:#fff;font-size:16px;font-weight:600;cursor:pointer;margin-top:14px;font-family:inherit}
+  .btn.blue{background:var(--blue)}
+  .btn.mint{background:var(--mint)}
+  .btn:disabled{opacity:.5}
+  .pills{display:flex;flex-wrap:wrap;gap:7px}
+  .pill{flex:1 1 auto;min-width:88px;padding:12px 8px;border-radius:11px;border:1px solid var(--line);
+    background:#fff;color:var(--ink-2);font-size:13.5px;font-weight:600;cursor:pointer;
+    text-align:center;font-family:inherit}
+  .pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .pill.on.mintish{background:var(--mint);border-color:var(--mint)}
+  .toast{position:fixed;left:14px;right:14px;bottom:16px;z-index:99;padding:15px;border-radius:13px;
+    background:var(--mint);color:#fff;font-weight:600;text-align:center;display:none;
+    box-shadow:0 12px 30px -10px rgba(0,0,0,.4)}
+  .toast.err{background:var(--red)}
+  .gate{max-width:400px;margin:80px auto}
+  .hint{font-size:12px;color:var(--ink-4);margin-top:6px}
+  .link{display:inline-block;margin-top:10px;color:var(--blue);font-size:13.5px;font-weight:600}
+  .thumbrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+  .thumbrow img{width:58px;height:58px;object-fit:cover;border-radius:9px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="gate" class="gate">
+    <h1>Zackary · Editor</h1>
+    <p class="sub">Enter your edit key to unlock.</p>
+    <div class="card">
+      <label>Edit key</label>
+      <input type="password" id="keyIn" autocomplete="current-password">
+      <button class="btn blue" id="unlock">Unlock</button>
+    </div>
+  </div>
+
+  <div id="app" style="display:none">
+    <h1>Zackary · Editor</h1>
+    <p class="sub">Everything here goes live to the family page instantly. <a class="link" href="./" target="_blank">View public page →</a></p>
+
+    <div class="card">
+      <h2>Status</h2>
+      <div class="pills" id="statusPills"></div>
+      <label style="margin-top:14px">Live badge (green pulse)</label>
+      <div class="pills">
+        <button class="pill" data-live="1" id="liveOn">Live on</button>
+        <button class="pill" data-live="0" id="liveOff">Live off</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Where we are</h2>
+      <div class="pills" id="stagePills"></div>
+    </div>
+
+    <div class="card">
+      <h2>Post an update</h2>
+      <label>Headline (optional)</label>
+      <input id="upTitle" placeholder="Spinal is in">
+      <label>Message</label>
+      <textarea id="upMsg" placeholder="What's happening right now..."></textarea>
+      <button class="btn blue" id="postUpdate">Post update</button>
+      <div class="hint">Shows at the top of the page and gets added to the milestone log.</div>
+    </div>
+
+    <div class="card">
+      <h2>Photo</h2>
+      <input type="file" id="photoFile" accept="image/*">
+      <label>Caption (optional)</label>
+      <input id="photoCap" placeholder="First look">
+      <button class="btn mint" id="uploadPhoto">Upload photo</button>
+      <div class="thumbrow" id="thumbs"></div>
+    </div>
+
+    <div class="card">
+      <h2>Times</h2>
+      <label>Scheduled OR time</label>
+      <input type="datetime-local" id="surgeryTime">
+      <label>Born at (leave blank until he's here)</label>
+      <input type="datetime-local" id="bornAt">
+      <button class="btn" id="saveTimes">Save times</button>
+    </div>
+
+    <div class="card">
+      <h2>The plan</h2>
+      <div class="grid2">
+        <div><label>Check-in</label><input id="dCheckin" placeholder="6:00 AM"></div>
+        <div><label>OR time (text)</label><input id="dOr" placeholder="7:30 AM"></div>
+      </div>
+      <div class="grid2">
+        <div><label>No food after</label><input id="dFood" placeholder="Midnight"></div>
+        <div><label>Room</label><input id="dRoom" placeholder="Room 412"></div>
+      </div>
+      <label>Visiting note</label>
+      <textarea id="lVisit" style="min-height:70px"></textarea>
+      <button class="btn" id="savePlan">Save plan</button>
+    </div>
+
+    <div class="card">
+      <h2>Vitals</h2>
+      <div class="grid2">
+        <div><label>Michelle BP</label><input id="vBp" placeholder="118/72"></div>
+        <div><label>Michelle HR</label><input id="vHr" placeholder="78"></div>
+        <div><label>Temp</label><input id="vTemp" placeholder="98.4"></div>
+        <div><label>O₂</label><input id="vO2" placeholder="99%"></div>
+        <div><label>Zackary HR</label><input id="vBaby" placeholder="142"></div>
+        <div><label>Status</label><input id="vStatus" placeholder="Pre-op"></div>
+      </div>
+      <button class="btn" id="saveVitals">Save vitals</button>
+    </div>
+
+    <div class="card">
+      <h2>Zackary's first numbers</h2>
+      <div class="grid2">
+        <div><label>Born at</label><input id="bBorn" placeholder="7:52 AM"></div>
+        <div><label>Weight</label><input id="bWeight" placeholder="7 lb 4 oz"></div>
+        <div><label>Length</label><input id="bLength" placeholder="20 in"></div>
+        <div><label>Apgar</label><input id="bApgar" placeholder="9 / 9"></div>
+        <div><label>Hair</label><input id="bHair" placeholder="Dark, lots"></div>
+        <div><label>First cry</label><input id="bCry" placeholder="Loud"></div>
+      </div>
+      <button class="btn" id="saveBaby">Save numbers</button>
+    </div>
+
+    <div class="card">
+      <h2>Michelle's comfort (1–10)</h2>
+      <div class="pills" id="comfortPills"></div>
+    </div>
+
+    <div class="card">
+      <h2>Care team names</h2>
+      <label>Anesthesiology</label><input id="tAnes">
+      <label>OR nurse</label><input id="tNurse">
+      <label>Pediatrics</label><input id="tPeds">
+      <button class="btn" id="saveTeam">Save team</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB_URL = "https://lxfliinbgnqcyfddszmn.supabase.co";
+const SB_KEY = "sb_publishable_Olr9Z-sqEQaMEt8ZmVkGwQ_j5ridUsk";
+const OFFSET = "-04:00"; /* Eastern Daylight Time */
+const $ = id => document.getElementById(id);
+let KEY = "";
+let S = null;
+
+function toast(msg, err){
+  const t = $("toast");
+  t.textContent = msg; t.className = "toast" + (err ? " err" : "");
+  t.style.display = "block";
+  setTimeout(() => { t.style.display = "none"; }, 2200);
+}
+
+async function load(){
+  const r = await fetch(SB_URL + "/rest/v1/zackary_board?id=eq.1&select=state", {
+    headers:{ apikey: SB_KEY, Authorization: "Bearer " + SB_KEY }, cache:"no-store"
+  });
+  const j = await r.json();
+  S = (Array.isArray(j) && j[0] && j[0].state) || {};
+  S.details = S.details || {}; S.vitals = S.vitals || {}; S.baby = S.baby || {};
+  S.team = S.team || {}; S.milestones = S.milestones || []; S.photos = S.photos || [];
+  fill();
+}
+
+async function save(msg){
+  const r = await fetch(SB_URL + "/rest/v1/rpc/zackary_save", {
+    method:"POST",
+    headers:{ apikey: SB_KEY, Authorization:"Bearer " + SB_KEY, "Content-Type":"application/json" },
+    body: JSON.stringify({ p_key: KEY, p_state: S })
+  });
+  if(!r.ok){ toast("Save failed — check your key", true); return false; }
+  toast(msg || "Saved");
+  return true;
+}
+
+/* ---- pills ---- */
+const STATUSES = ["Scheduled","Checked in","In the OR","Recovery","He's here"];
+const STAGES = ["On our way","Check-in","Prep","Spinal","Zackary born","Recovery"];
+
+function buildPills(){
+  const sp = $("statusPills"); sp.innerHTML = "";
+  STATUSES.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "pill"; b.textContent = s;
+    b.onclick = async () => { S.status = s; if(await save("Status: " + s)) fill(); };
+    sp.appendChild(b);
+  });
+  const gp = $("stagePills"); gp.innerHTML = "";
+  STAGES.forEach((s,i) => {
+    const b = document.createElement("button");
+    b.className = "pill"; b.textContent = s;
+    b.onclick = async () => { S.stage = i; if(await save(s)) fill(); };
+    gp.appendChild(b);
+  });
+  const cp = $("comfortPills"); cp.innerHTML = "";
+  for(let i=1;i<=10;i++){
+    const b = document.createElement("button");
+    b.className = "pill"; b.style.minWidth = "50px"; b.textContent = i;
+    b.onclick = async () => { S.comfort = i; if(await save("Comfort: " + i)) fill(); };
+    cp.appendChild(b);
+  }
+  $("liveOn").onclick  = async () => { S.live = true;  if(await save("Live on")) fill(); };
+  $("liveOff").onclick = async () => { S.live = false; if(await save("Live off")) fill(); };
+}
+
+function toLocalInput(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  if(isNaN(d)) return "";
+  const p = n => String(n).padStart(2,"0");
+  const parts = new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",
+    month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(d);
+  const g = t => parts.find(x => x.type === t).value;
+  return g("year")+"-"+g("month")+"-"+g("day")+"T"+p(g("hour"))+":"+g("minute");
+}
+
+function fill(){
+  [...$("statusPills").children].forEach(b => b.classList.toggle("on", b.textContent === S.status));
+  [...$("stagePills").children].forEach((b,i) => b.classList.toggle("on", S.stage === i));
+  [...$("comfortPills").children].forEach((b,i) => b.classList.toggle("on", S.comfort === i+1));
+  $("liveOn").classList.toggle("on", !!S.live);
+  $("liveOff").classList.toggle("on", !S.live);
+
+  $("surgeryTime").value = toLocalInput(S.surgery_time);
+  $("bornAt").value = toLocalInput(S.born_at);
+
+  $("dCheckin").value = S.details.checkin || "";
+  $("dOr").value = S.details.or_time || "";
+  $("dFood").value = S.details.no_food || "";
+  $("dRoom").value = S.details.room || "";
+  $("lVisit").value = S.visiting || "";
+
+  $("vBp").value = S.vitals.bp || ""; $("vHr").value = S.vitals.hr || "";
+  $("vTemp").value = S.vitals.temp || ""; $("vO2").value = S.vitals.o2 || "";
+  $("vBaby").value = S.vitals.baby_hr || ""; $("vStatus").value = S.vitals.status || "";
+
+  $("bBorn").value = S.baby.born || ""; $("bWeight").value = S.baby.weight || "";
+  $("bLength").value = S.baby.length || ""; $("bApgar").value = S.baby.apgar || "";
+  $("bHair").value = S.baby.hair || ""; $("bCry").value = S.baby.cry || "";
+
+  $("tAnes").value = S.team.anes || ""; $("tNurse").value = S.team.nurse || "";
+  $("tPeds").value = S.team.peds || "";
+
+  const th = $("thumbs"); th.innerHTML = "";
+  (S.photos || []).slice(0,8).forEach(p => {
+    const i = document.createElement("img"); i.src = p.src; th.appendChild(i);
+  });
+}
+
+/* ---- actions ---- */
+function wire(){
+  $("postUpdate").onclick = async () => {
+    const msg = $("upMsg").value.trim();
+    if(!msg){ toast("Write a message first", true); return; }
+    const title = $("upTitle").value.trim();
+    const now = new Date().toISOString();
+    S.latest = { title: title || "Latest from Rene", msg, time: now };
+    S.milestones = [{ title: title || "Update", body: msg, time: now }].concat(S.milestones || []);
+    if(await save("Posted")){ $("upMsg").value = ""; $("upTitle").value = ""; fill(); }
+  };
+
+  $("saveTimes").onclick = async () => {
+    const st = $("surgeryTime").value, ba = $("bornAt").value;
+    S.surgery_time = st ? st + ":00" + OFFSET : null;
+    S.born_at = ba ? ba + ":00" + OFFSET : null;
+    if(await save("Times saved")) fill();
+  };
+
+  $("savePlan").onclick = async () => {
+    S.details = { checkin:$("dCheckin").value, or_time:$("dOr").value,
+                  no_food:$("dFood").value, room:$("dRoom").value };
+    S.visiting = $("lVisit").value;
+    await save("Plan saved");
+  };
+
+  $("saveVitals").onclick = async () => {
+    S.vitals = { bp:$("vBp").value, hr:$("vHr").value, temp:$("vTemp").value,
+                 o2:$("vO2").value, baby_hr:$("vBaby").value, status:$("vStatus").value };
+    await save("Vitals saved");
+  };
+
+  $("saveBaby").onclick = async () => {
+    S.baby = { born:$("bBorn").value, weight:$("bWeight").value, length:$("bLength").value,
+               apgar:$("bApgar").value, hair:$("bHair").value, cry:$("bCry").value };
+    await save("Numbers saved");
+  };
+
+  $("saveTeam").onclick = async () => {
+    S.team = { anes:$("tAnes").value, nurse:$("tNurse").value, peds:$("tPeds").value };
+    await save("Team saved");
+  };
+
+  $("uploadPhoto").onclick = async () => {
+    const f = $("photoFile").files[0];
+    if(!f){ toast("Pick a photo first", true); return; }
+    const btn = $("uploadPhoto"); btn.disabled = true; btn.textContent = "Uploading...";
+    try{
+      const blob = await shrink(f);
+      const name = Date.now() + "-" + Math.random().toString(36).slice(2,8) + ".jpg";
+      const r = await fetch(SB_URL + "/storage/v1/object/zackary-photos/" + name, {
+        method:"POST",
+        headers:{ apikey: SB_KEY, Authorization:"Bearer " + SB_KEY, "Content-Type":"image/jpeg" },
+        body: blob
+      });
+      if(!r.ok) throw new Error("upload");
+      const url = SB_URL + "/storage/v1/object/public/zackary-photos/" + name;
+      S.photos = [{ src:url, caption:$("photoCap").value.trim(), time:new Date().toISOString() }]
+                 .concat(S.photos || []);
+      if(await save("Photo posted")){ $("photoFile").value = ""; $("photoCap").value = ""; fill(); }
+    }catch(e){ toast("Upload failed", true); }
+    btn.disabled = false; btn.textContent = "Upload photo";
+  };
+}
+
+/* resize so uploads are fast on cell service */
+function shrink(file){
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 1600;
+      let {width:w, height:h} = img;
+      if(w > max || h > max){ const s = max/Math.max(w,h); w = Math.round(w*s); h = Math.round(h*s); }
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      c.toBlob(b => b ? res(b) : rej(new Error("blob")), "image/jpeg", 0.85);
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => rej(new Error("img"));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+async function start(){
+  buildPills(); wire();
+  await load();
+  $("gate").style.display = "none";
+  $("app").style.display = "block";
+}
+
+$("unlock").onclick = async () => {
+  KEY = $("keyIn").value.trim();
+  if(!KEY) return;
+
+  try { await start(); }
+  catch(e){ toast("ERR: " + (e && e.message ? e.message : String(e)), true); }
+};
+$("keyIn").addEventListener("keydown", e => { if(e.key === "Enter") $("unlock").click(); });
+
+if(KEY) start();
+</script>
+</body>
+</html>
